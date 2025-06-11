@@ -1,39 +1,81 @@
 name: ITUS FTP Deploy
+\
 description: Upload a directory to an FTP (cPanel) server
+\
 author: Ved Awate
+\
 branding:
+\
   icon: upload-cloud
+\
   color: blue
+\
 inputs:
+\
   ftp-server:
+\
     description: FTP host (e.g. ftp.example.com)
+\
     required: true
+\
   ftp-username:
+\
     description: FTP username
+\
     required: true
+\
   ftp-password:
+\
     description: FTP password
+\
     required: true
+\
   local-dir:
+\
     description: Local folder to upload
+\
     required: false
+\
     default: .
+\
   server-dir:
+\
     description: Remote folder on the FTP server
+\
     required: false
+\
     default: /
+\
 runs:
+\
   using: composite
+\
   steps:
+\
     - name: Install lftp
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y lftp
-    - name: Deploy via FTP
+\
       shell: bash
+\
       run: |
+\
         set -euo pipefail
+\
+        sudo apt-get update
+\
+        sudo apt-get install -y lftp
+\
+    - name: Deploy via FTP
+\
+      shell: bash
+\
+      run: |
+\
+        set -euo pipefail
+\
         lftp -c "
+\
           open -u '${{ inputs.ftp-username }}','${{ inputs.ftp-password }}' '${{ inputs.ftp-server }}';
+\
           mirror -R '${{ inputs.local-dir }}' '${{ inputs.server-dir }}'
+\
         "
