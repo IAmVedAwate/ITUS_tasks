@@ -5,14 +5,14 @@ on:
       - main
 jobs:
   FTP-Deploy-Action:
-    name: FTP-Deploy-Action.
+    name: ITUS_tasks.
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.1.0
       with:
         fetch-depth: 2
-    - name: FTP-Deploy-Action
-      uses: ITUS_tasks/FTP-Deploy-Action@3.1.1
+    - name: ITUS_tasks
+      uses: IAmVedAwate/ITUS_tasks@3.1.1
       with:
         ftp-server: ${{ secrets.FTP_SERVER }}
         ftp-username: ${{ secrets.FTP_USERNAME}}
